@@ -1,28 +1,36 @@
-import { Stack } from "expo-router";
-import { Image, StyleSheet } from "react-native";
+import Feather from '@expo/vector-icons/Feather';
+import { Tabs } from 'expo-router';
+import React from 'react';
+const isLoggin = false
 
-function LogoTitle() {
-    return <Image style={styles.image} source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }} />
+const RootLayout = () => {
 
-}
-export default function RootLayOut() {
     return (
-        <>
-            <Stack>
+        <Tabs screenOptions={{ tabBarActiveTintColor: 'red' }}>
+            <Tabs.Screen name='(home)' options=
+                {{
+                    headerShown: false,
+                    tabBarIcon: ({ color }) => {
+                        return (<Feather name="home" size={24} color={color} />)
+                    },
+                    title: 'Home'
+                }}>
 
-                <Stack.Screen name='index'
-                ></Stack.Screen>
-            </Stack >
-
-        </>);
 
 
+            </Tabs.Screen>
+
+            <Tabs.Screen name='setting' options={{
+                headerShown: false,
+                tabBarIcon: ({ color }) => {
+                    return (<Feather name="settings" size={24} color={color} />)
+                }
+            }}></Tabs.Screen>
+            <Tabs.Screen name='+not-found' options={{
+                href: null
+            }}></Tabs.Screen>
+        </Tabs >
+    )
 }
 
-
-const styles = StyleSheet.create({
-    image: {
-        width: 30,
-        height: 30
-    }
-})
+export default RootLayout

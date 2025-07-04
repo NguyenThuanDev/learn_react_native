@@ -13,7 +13,7 @@ const detailScreen = () => {
             <View>
                 <Text style={styles.text}>Đây là trang Detail</Text>
                 <Text onPress={() => {
-                    router.setParams({ name: "update" })
+                    router.navigate("./")
                 }}>Click me</Text>
             </View>
 
