@@ -2,7 +2,7 @@ import * as SecureStore from 'expo-secure-store';
 import { useCallback, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 
-export function useLocalStorage(key: string): [[boolean, string | null], (value: string | null) => void] {
+export default function useLocalStorage(key: string): [[boolean, string | null], (value: string | null) => void] {
     const [value, setValue] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     //khi mở ứng dụng thì ta sẽ lấy cái session được lưu trước đó từ localStorage nếu là web và từ SecureStore nếu là app

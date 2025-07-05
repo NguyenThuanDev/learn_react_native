@@ -1,35 +1,34 @@
-import Feather from '@expo/vector-icons/Feather';
-import { Tabs } from 'expo-router';
+import { SplashScreenController } from '../context/splash';
+import { Stack } from 'expo-router';
 import React from 'react';
-const isLoggin = false
+import { SessionProvider, useSession } from '../context/ctx';
+
+function RootNavigation() {
+    const { session } = useSession();
+    return (<Stack>
+        <Stack.Protected guard={session}>
+            <Stack.Screen name='(protected)'></Stack.Screen>
+        </Stack.Protected>
+        <Stack.Protected guard={!session}>
+            <Stack.Screen name='sign-in'></Stack.Screen>
+        </Stack.Protected>
+    </Stack>)
+}
+
+
 
 const RootLayout = () => {
 
     return (
-        <Tabs screenOptions={{ tabBarActiveTintColor: 'red' }}>
-            <Tabs.Screen name='(home)' options=
-                {{
-                    headerShown: false,
-                    tabBarIcon: ({ color }) => {
-                        return (<Feather name="home" size={24} color={color} />)
-                    },
-                    title: 'Home'
-                }}>
+        <SessionProvider>
+            <SplashScreenController />
+            <RootNavigation />
 
 
 
-            </Tabs.Screen>
 
-            <Tabs.Screen name='setting' options={{
-                headerShown: false,
-                tabBarIcon: ({ color }) => {
-                    return (<Feather name="settings" size={24} color={color} />)
-                }
-            }}></Tabs.Screen>
-            <Tabs.Screen name='+not-found' options={{
-                href: null
-            }}></Tabs.Screen>
-        </Tabs >
+        </SessionProvider>
+
     )
 }
 
