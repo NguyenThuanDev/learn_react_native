@@ -1,33 +1,76 @@
-import { useSession } from '@/context/ctx'
-import { Button } from '@react-navigation/elements'
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-const SignInScreen = () => {
-    const { signIn } = useSession()
-    return (
-        <SafeAreaView style={styles.safeview}>
-            <View>
-                <Text style={styles.text}>Đây là trang Login</Text>
-                <Button onPressIn={() => {
-                    signIn()
-                }}>Click Me</Button>
+import { useSession } from '@/context/ctx';
+import React, { useState } from 'react';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
-            </View>
-        </SafeAreaView>
-    )
-}
+const SignInScreen = () => {
+    const { signIn } = useSession();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
+
+    const handleLogin = async () => {
+        try {
+            await signIn(email, password);
+        } catch (err) {
+            setMessage('User không tồn tại hoặc sai mật khẩu');
+        }
+    };
+
+    return (
+        <View style={styles.container}>
+            <Text style={styles.title}>Đăng nhập</Text>
+
+            <TextInput
+                style={styles.input}
+                placeholder="Email"
+                value={email}
+                onChangeText={setEmail}
+                autoCapitalize="none"
+                keyboardType="email-address"
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+            />
+
+            <Button title="Đăng nhập" onPress={handleLogin} />
+
+            {message ? <Text style={styles.error}>{message}</Text> : null}
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
-    safeview: {
+    container: {
+        flex: 1,
+        padding: 24,
         justifyContent: 'center',
-        marginTop: 100,
-        alignItems: 'center',
+        backgroundColor: '#f8f8f8',
     },
-    text: {
-        fontSize: 25
+    title: {
+        fontSize: 28,
+        fontWeight: '600',
+        marginBottom: 24,
+        textAlign: 'center',
+        color: '#333',
     },
+    input: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        backgroundColor: '#fff',
+        padding: 12,
+        marginBottom: 16,
+        borderRadius: 8,
+        fontSize: 16,
+    },
+    error: {
+        color: 'red',
+        marginTop: 12,
+        textAlign: 'center',
+    },
+});
 
-})
-
-export default SignInScreen
+export default SignInScreen;
